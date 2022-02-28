@@ -67,6 +67,7 @@ const updateUser = async (req, res, next) => {
       { username, bio, name },
       { where: { id } }
     );
+
     if (!updateUser) {
       throw new Error('user not found');
     }
@@ -107,7 +108,7 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-//UPDATE SCORE
+// UPDATE SCORE
 const updateScore = async (req, res, next) => {
   try {
     const { id } = req.params;

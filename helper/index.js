@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer');
 
 const kirimEmail = (dataEmail) => {
-  console.log('dataEmail', dataEmail);
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
     secure: false, // upgrade later with STARTTLS
@@ -14,8 +13,8 @@ const kirimEmail = (dataEmail) => {
   });
   return transporter
     .sendMail(dataEmail)
-    .then((info) => console.log('Email terkirim:', info.messageId))
-    .catch((err) => console.log('Terjadi kesalahan:', err));
+    .then((info) => info.messageId)
+    .catch((err) => err);
 };
 
 module.exports = { kirimEmail };

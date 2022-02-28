@@ -1,11 +1,9 @@
-const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const bcrypt = require('bcrypt');
+
+const { generateToken } = require('../middlewares/token.middlewares');
 const { kirimEmail } = require('../helper');
-
 const { User } = require('../database/models');
-
-const { JWT_SECRET, JWT_EXPRISES_IN } = process.env;
 
 // REGIER USER
 const register = async (req, res, next) => {
@@ -67,8 +65,7 @@ const forgotPassword = async (req, res, next) => {
       });
     }
 
-    const token = signToken(user.id);
-    console.log('token:', token);
+    const token = generateToken(user);
 
     await user.update({ resetPasswordLink: token });
 
@@ -94,15 +91,13 @@ const forgotPassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
   try {
     const { token, password } = req.body;
-    console.log('token:', token);
-    console.log('password:', password);
 
     const user = await User.findOne({
       where: {
         resetPasswordLink: token,
       },
     });
-    console.log(user);
+
     if (user) {
       const hash = await bcrypt.hash(password, 12);
       user.password = hash;
@@ -117,11 +112,9 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
-// GENERATE TOKEN
-const generateToken = (user) => {
-  const payload = { id: user.id, email: user.email };
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPRISES_IN });
-  return token;
+module.exports = {
+  register,
+  login,
+  forgotPassword,
+  resetPassword,
 };
-
-module.exports = { register, login, forgotPassword, resetPassword };
