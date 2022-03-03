@@ -8,7 +8,6 @@ const getAllUser = async (req, res, next) => {
     const user = await User.findAll();
     return res.status(200).json({
       message: 'success get all user',
-      code: 200,
       user,
     });
   } catch (error) {
@@ -30,7 +29,6 @@ const getProfileUser = async (req, res, next) => {
 
   return res.status(200).json({
     message: 'success get profile user',
-    code: 200,
     user,
   });
 };
@@ -49,7 +47,6 @@ const searchUser = async (req, res, next) => {
 
     return res.status(200).json({
       message: 'success search user',
-      code: 200,
       user,
     });
   } catch (error) {
@@ -64,7 +61,7 @@ const updateUser = async (req, res, next) => {
     const { username, bio, name } = req.body;
 
     const updateUser = await User.update(
-      { username, bio, name },
+      { username, bio, name, avatar },
       { where: { id } }
     );
 
@@ -81,8 +78,7 @@ const updateUser = async (req, res, next) => {
 
     return res.status(201).json({
       status: 'success',
-      code: 201,
-      data: user,
+      user,
     });
   } catch (error) {
     next(error);
@@ -100,7 +96,6 @@ const getUserById = async (req, res, next) => {
 
     return res.status(200).json({
       message: 'success get user by id',
-      code: 200,
       user,
     });
   } catch (error) {
@@ -128,7 +123,6 @@ const updateScore = async (req, res, next) => {
 
     return res.status(201).json({
       status: 'success',
-      code: 201,
       user,
     });
   } catch (error) {
