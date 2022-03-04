@@ -44,10 +44,6 @@ User.init(
       allowNull: true,
       defaultValue: 0,
     },
-    resetPasswordLink: {
-      type: DataTypes.STRING,
-      defaultValue: '',
-    },
   },
   {
     sequelize,

@@ -1,8 +1,10 @@
 const createError = require('http-errors');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const { generateToken } = require('../middlewares/token.middlewares');
 const { User } = require('../database/models');
+
+const { JWT_SECRET, JWT_EXPRISES_IN } = process.env;
 
 // Desc : Register a new user
 // Route : POST /api/register
@@ -55,6 +57,15 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
+
+// Desc : Generate token
+const generateToken = (user) => {
+  const payload = { id: user.id, email: user.email };
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPRISES_IN });
+  return token;
+};
+
+module.exports = { generateToken };
 
 module.exports = {
   register,

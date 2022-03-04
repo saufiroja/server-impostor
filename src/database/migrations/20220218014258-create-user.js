@@ -39,10 +39,6 @@ module.exports = {
         allowNull: true,
         defaultValue: 0,
       },
-      resetPasswordLink: {
-        type: Sequelize.STRING,
-        defaultValue: '',
-      },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: new Date(),
