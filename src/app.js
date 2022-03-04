@@ -17,7 +17,13 @@ const userRouter = require('./routers/user.routers');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(
+  cors({
+    origin:
+      'http://localhost:3000' ||
+      'https://620e3d1755949a19c35ef726--impostor-team-nextjs.netlify.app/',
+  })
+);
 
 // ROUTER
 app.use('/api', authRouter);
