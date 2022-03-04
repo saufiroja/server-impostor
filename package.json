@@ -4,15 +4,15 @@
   "description": "Server Impostor",
   "main": "app.js",
   "scripts": {
-    "start": "node src/app",
-    "start:dev": "nodemon src/app",
+    "start": "node src/server",
+    "start:dev": "nodemon src/server",
     "db:migrate": "npx sequelize db:migrate",
     "eslint": "eslint --init",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write .",
     "jest": "jest --init",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",

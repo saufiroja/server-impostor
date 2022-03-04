@@ -2,10 +2,11 @@ const createError = require('http-errors');
 const bcrypt = require('bcrypt');
 
 const { generateToken } = require('../middlewares/token.middlewares');
-const { kirimEmail } = require('../helper');
 const { User } = require('../database/models');
 
-// REGIER USER
+// Desc : Register a new user
+// Route : POST /api/register
+// Access : Public
 const register = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -29,7 +30,9 @@ const register = async (req, res, next) => {
   }
 };
 
-// LOGIN USER
+// Desc : Login a user
+// Route : POST /api/login
+// Access : Public
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -53,68 +56,7 @@ const login = async (req, res, next) => {
   }
 };
 
-// FORGET PASSWORD
-const forgotPassword = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(400).json({
-        status: false,
-        message: 'Email tidak terdaftar',
-      });
-    }
-
-    const token = generateToken(user);
-
-    await user.update({ resetPasswordLink: token });
-
-    const templateEmail = {
-      from: 'IMPOSTOR TEAM',
-      to: email,
-      subject: 'Link Reset Password',
-      html: `<p>Silakan klik link di bawah ini untuk reset password Anda! </p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
-    };
-
-    kirimEmail(templateEmail);
-
-    return res.status(200).json({
-      status: true,
-      email: 'Link reset password berhasil terkirim!',
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// RESET PASSWORD
-const resetPassword = async (req, res, next) => {
-  try {
-    const { token, password } = req.body;
-
-    const user = await User.findOne({
-      where: {
-        resetPasswordLink: token,
-      },
-    });
-
-    if (user) {
-      const hash = await bcrypt.hash(password, 12);
-      user.password = hash;
-      await user.save();
-      return res.status(201).json({
-        status: true,
-        message: 'password berhasil diganti',
-      });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
 module.exports = {
   register,
   login,
-  forgotPassword,
-  resetPassword,
 };

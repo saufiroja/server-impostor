@@ -33,7 +33,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-const { PORT } = process.env;
-app.listen(PORT, () => {
-  console.log(`connect on port ${PORT}`);
-});
+module.exports = { app };
