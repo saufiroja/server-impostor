@@ -109,7 +109,7 @@ const updateUser = async (req, res, next) => {
 
     return res.status(201).json({
       status: 'success update user',
-      data: user,
+      user,
     });
   } catch (error) {
     next(error);
