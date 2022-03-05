@@ -21,27 +21,32 @@ const getAllUser = async (req, res, next) => {
 // Url : /api/user/:username
 // Access : Public
 const getProfileUser = async (req, res, next) => {
-  try {
-    const { username } = req.params;
-    const user = await User.findOne({
-      attributes: ['id', 'name', 'email', 'username', 'avatar', 'bio', 'score'],
-      where: { username },
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        result: 'failed',
-        message: 'user not registered',
+  User.findOne({
+    attributes: ['id', 'name', 'email', 'username', 'avatar', 'bio', 'score'],
+    where: {
+      username: req.params.username,
+    },
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).json({
+          result: 'failed',
+          message: 'user not registered',
+        });
+      }
+      res.status(200).json({
+        result: 'success',
+        message: 'successfully retrieve data',
+        data: data,
       });
-    }
-
-    return res.status(200).json({
-      message: 'success get profile user',
-      user,
+    })
+    .catch((err) => {
+      res.status(500).json({
+        result: 'failed',
+        message: 'some error occured while retrieving game',
+        error: err.message,
+      });
     });
-  } catch (error) {
-    next(error);
-  }
 };
 
 // Desc : Get user by id
