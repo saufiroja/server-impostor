@@ -29,7 +29,10 @@ const getProfileUser = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(404).json('user not registered');
+      return res.status(404).json({
+        result: 'failed',
+        message: 'user not registered',
+      });
     }
 
     return res.status(200).json({
