@@ -54,23 +54,32 @@ const getProfileUser = async (req, res, next) => {
 // Url : /api/users/:id
 // Access : Public
 const getUserById = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findOne({ where: { id } });
-    if (!user) {
-      return res.status(404).json({
-        result: 'failed',
-        message: 'user not registered',
+  User.findOne({
+    attributes: ['id', 'name', 'email', 'username', 'avatar', 'bio', 'score'],
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).json({
+          result: 'failed',
+          message: 'user not registered',
+        });
+      }
+      res.status(200).json({
+        result: 'success',
+        message: 'successfully retrieve data',
+        data: data,
       });
-    }
-
-    return res.status(200).json({
-      message: 'success get user by id',
-      user,
+    })
+    .catch((err) => {
+      res.status(500).json({
+        result: 'failed',
+        message: 'some error occured while retrieving game',
+        error: err.message,
+      });
     });
-  } catch (error) {
-    next(error);
-  }
 };
 
 // Desc : Update user
@@ -100,7 +109,7 @@ const updateUser = async (req, res, next) => {
 
     return res.status(201).json({
       status: 'success update user',
-      user,
+      data: user,
     });
   } catch (error) {
     next(error);
@@ -130,7 +139,7 @@ const updateScore = async (req, res, next) => {
 
     return res.status(201).json({
       message: 'success update score user',
-      user,
+      data: user,
     });
   } catch (error) {
     next(error);
