@@ -50,7 +50,10 @@ const getUserById = async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findOne({ where: { id } });
     if (!user) {
-      return res.status(404).json('user not registered');
+      return res.status(404).json({
+        result: 'failed',
+        message: 'user not registered',
+      });
     }
 
     return res.status(200).json({
@@ -77,7 +80,7 @@ const updateUser = async (req, res, next) => {
     );
 
     if (!updateUser) {
-      throw new Error('user not found');
+      return res.status(404).json('user not found');
     }
 
     const user = await User.findOne({
