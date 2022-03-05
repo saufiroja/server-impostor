@@ -80,7 +80,7 @@ const updateUser = async (req, res, next) => {
     );
 
     if (!updateUser) {
-      return res.status(404).json('user not found');
+      throw new Error('user not found');
     }
 
     const user = await User.findOne({
