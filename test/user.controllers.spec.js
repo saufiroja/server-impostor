@@ -12,7 +12,7 @@ describe('User API', () => {
   it('should get user profile', async () => {
     const res = await request(app).get('/api/user/halo1');
     expect(res.statusCode).toBe(200);
-    expect(res.body.message).toBe('success get profile user');
+    expect(res.body.message).toBe('successfully retrieve data');
   });
 
   // negative test
