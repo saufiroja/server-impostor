@@ -37,7 +37,7 @@ const getProfileUser = async (req, res, next) => {
       res.status(200).json({
         result: 'success',
         message: 'successfully retrieve data',
-        data: data,
+        data,
       });
     })
     .catch((err) => {
@@ -70,7 +70,7 @@ const getUserById = async (req, res, next) => {
       res.status(200).json({
         result: 'success',
         message: 'successfully retrieve data',
-        data: data,
+        data,
       });
     })
     .catch((err) => {
