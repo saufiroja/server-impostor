@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const { User } = require('../database/models');
 
 // Desc : Get all user
@@ -22,20 +21,24 @@ const getAllUser = async (req, res, next) => {
 // Url : /api/user/:username
 // Access : Public
 const getProfileUser = async (req, res, next) => {
-  const { username } = req.params;
-  const user = await User.findOne({
-    attributes: ['id', 'name', 'email', 'username', 'avatar', 'bio', 'score'],
-    where: { username },
-  });
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({
+      attributes: ['id', 'name', 'email', 'username', 'avatar', 'bio', 'score'],
+      where: { username },
+    });
 
-  if (!user) {
-    return next(createError(404, 'User not found'));
+    if (!user) {
+      return res.status(404).json('user not registered');
+    }
+
+    return res.status(200).json({
+      message: 'success get profile user',
+      user,
+    });
+  } catch (error) {
+    next(error);
   }
-
-  return res.status(200).json({
-    message: 'success get profile user',
-    user,
-  });
 };
 
 // Desc : Get user by id
@@ -47,7 +50,7 @@ const getUserById = async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findOne({ where: { id } });
     if (!user) {
-      return next(createError(404, 'User not found'));
+      return res.status(404).json('user not registered');
     }
 
     return res.status(200).json({
@@ -74,7 +77,7 @@ const updateUser = async (req, res, next) => {
     );
 
     if (!updateUser) {
-      return next(createError(404, 'User not found'));
+      throw new Error('user not found');
     }
 
     const user = await User.findOne({
@@ -104,7 +107,7 @@ const updateScore = async (req, res, next) => {
 
     const updateScore = await User.update({ score }, { where: { id } });
     if (!updateScore) {
-      return next(createError(404, 'User not found'));
+      throw new Error('user not found');
     }
 
     const user = await User.findOne({
