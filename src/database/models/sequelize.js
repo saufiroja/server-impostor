@@ -22,8 +22,6 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   },
 });
 
-sequelize.authenticate().then(() => {
-  console.log('connect on database');
-});
+sequelize.sync({ force: true });
 
 module.exports = { sequelize };
