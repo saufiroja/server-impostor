@@ -16,7 +16,7 @@ jobs:
           npm run lint
       - uses: actions/checkout@v1
       - name: Check test
-        run: /
+        run: |
           npm install
           npm run test
       - name: Deploy to Heroku
