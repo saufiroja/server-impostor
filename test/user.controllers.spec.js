@@ -20,7 +20,7 @@ describe('User API', () => {
     const res = await request(app).get(
       '/api/users/310f067e-9b43-11ec-b909-0242ac120002'
     );
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(404);
   });
 
   it('[posotive] should register', async () => {
