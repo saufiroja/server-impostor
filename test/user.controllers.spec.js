@@ -2,7 +2,7 @@ const request = require('supertest');
 const { app } = require('../src/app');
 
 describe('User API', () => {
-  it('[negative] should register with Email already exists', async () => {
+  it('[negative] should register with error', async () => {
     const res = await request(app).post('/api/register').send({
       username: 'halo1',
       email: 'halo1@gmail.com',
