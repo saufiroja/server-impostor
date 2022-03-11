@@ -17,11 +17,8 @@ const userRouter = require('./routers/user.routers');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-app.use(
-  cors({
-    origin: 'https://impostor-game-web.netlify.app/',
-  })
-);
+app.use(cors({ origin: 'https://impostor-game-web.netlify.app' }));
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
