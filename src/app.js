@@ -22,6 +22,14 @@ app.use(
     origin: 'https://impostor-game-web.netlify.app/',
   })
 );
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, PATCH, DELETE'
+  );
+  next();
+});
 
 // ROUTER
 app.use('/api', authRouter);
