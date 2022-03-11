@@ -21,7 +21,7 @@ app.use(
   cors({
     origin:
       'http://localhost:3000' ||
-      'https://620e3d1755949a19c35ef726--impostor-team-nextjs.netlify.app/',
+      'https://impostor-game-web.netlify.app/',
   })
 );
 
