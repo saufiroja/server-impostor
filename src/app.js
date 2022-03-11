@@ -19,9 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(
   cors({
-    origin:
-      'http://localhost:3000' ||
-      'https://impostor-game-web.netlify.app/',
+    origin: 'https://impostor-game-web.netlify.app/',
   })
 );
 
